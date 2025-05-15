@@ -11,15 +11,34 @@ const player1El = document.querySelector('.player--1');
 const score0El = document.querySelector('#score--0');
 const score1El = document.getElementById('score--1'); // relativamente mais rápido que "querySelector"
 
-score0El.textContent = 0; // condições iniciais
-score1El.textContent = 0;
+// score0El.textContent = 0; // condições iniciais
+// score1El.textContent = 0;
+// diceEl.classList.add('hidden'); // deixa o dado invísivel inicialmente
 
-diceEl.classList.add('hidden'); // deixa o dado invísivel inicialmente
+// const scores = [0, 0]; // pontuação 0 para ambos jogadores. "scores" é a pontuação final que acumula
+// let currentScore = 0;
+// let activePlayer = 0;
+// let playing = true; // "state variable" do jogo. lógida de se está em andamento ou não
 
-const scores = [0, 0]; // pontuação 0 para ambos jogadores. "scores" é a pontuação final que acumula
-let currentScore = 0;
-let activePlayer = 0;
-let playing = true; // "state variable" do jogo. se está em andamento ou não
+let scores, currentScore, activePlayer, playing; // deixa as variáveis acessíveis no escopo global
+
+const init = function () {
+    scores = [0, 0]; // retirado const para evitar criação de uma nova variável
+    currentScore = 0; // retirado let daqui até "playing". valores redeclarados
+    activePlayer = 0;
+    playing = true;
+    score0El.textContent = 0;
+    score1El.textContent = 0;
+    current0El.textContent = 0;
+    current1El.textContent = 0;
+    diceEl.classList.add('hidden');
+    player0El.classList.remove('player--winner');
+    player1El.classList.remove('player--winner');
+    player0El.classList.add('player--active');
+    player1El.classList.remove('player--active');
+};
+
+init();
 
 const switchPlayer = function () {
     // sem "param/arg" porque o código é exatamente o mesmo para todas situações do projeto. caso houvesse pequenas mudanças, chamar um arg seria útil para especificar essa mudança
@@ -73,3 +92,15 @@ btnHold.addEventListener('click', function () {
         }
     }
 });
+
+btnNew.addEventListener('click', init); // sem (), pois será chamado assim que ocorrer um click
+// btnNew.addEventListener('click', function () {
+// score0El.textContent = 0;
+// score1El.textContent = 0;
+// current0El.textContent = 0;
+// current1El.textContent = 0;
+// player0El.classList.remove('player--winner');
+// player1El.classList.remove('player--winner');
+// player0El.classList.add('player--active'); // "remove" no lugar de "add" porque o jogador 0 deve ser o jogador ativo (ou seja, o que começa jogando) toda vez que o jogo é reiniciado. Isso faz com que o jogador 0 volte a ser o ativo sem precisar verificar se ele já era ou não. Se ele já tiver essa classe, o JavaScript simplesmente não faz nada (não duplica a classe). Por que não usar remove com player0El? Estaria removendo a classe do jogador 0 — ou seja, desativando ele visualmente, o que não faz sentido, porque ele é quem deve começar a nova rodada.
+// player1El.classList.remove('player--active');
+// });
